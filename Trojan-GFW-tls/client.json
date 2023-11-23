@@ -1,0 +1,25 @@
+{
+    "type": "trojan",
+    "tag": "", // config name
+    "server": "", // your server domain or ip
+    "server_port": , // server port
+    "password": "", // password
+    "tls": {
+        "enabled": true,
+        "insecure": false,
+        "server_name": "", // your domain
+        "utls": {
+            "enabled": true,
+            "fingerprint": "firefox"
+        }
+    },
+    "network": "tcp",
+    "tcp_fast_open": true,
+    "tcp_multi_path": true,
+    "multiplex": {
+        "enabled": true,
+        "max_streams": 16,
+        "padding": false,
+        "protocol": "smux"
+    }
+}
