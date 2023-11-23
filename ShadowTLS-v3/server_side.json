@@ -1,0 +1,29 @@
+{
+    "type": "shadowtls",
+    "listen": "::", // bind 0.0.0.0
+    "listen_port": , // SERVER_PORT
+    "domain_strategy": "prefer_ipv4",
+    "sniff": true,
+    "sniff_override_destination": true,
+    "version": 3,
+    "users": [
+        {
+            "name": "", // name
+            "password": "" // sing-box generate rand --base64 16
+        }
+    ],
+    "handshake": {
+        "server": "", // Clean SNI
+        "server_port": , // port
+        "domain_strategy": "prefer_ipv4"
+    },
+    "detour": "shadowsocks-in"
+},
+{
+    "type": "shadowsocks",
+    "tag": "shadowsocks-in",
+    "listen": "127.0.0.1",
+    "network": "tcp",
+    "method": "2022-blake3-aes-256-gcm",
+    "password": "" //// sing-box generate rand --base64 16
+}

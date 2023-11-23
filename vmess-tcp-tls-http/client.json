@@ -1,0 +1,43 @@
+{
+    "type": "vmess",
+    "tag": "", // config name
+    "uuid": "", // uuid
+    "domain_strategy": "prefer_ipv4",
+    "global_padding": false,
+    "authenticated_length": true,
+    "alter_id": 1,
+    "security": "auto",
+    "server": "", // server ip or domain
+    "server_port": , // server port
+    "tls": {
+        "enabled": true,
+        "insecure": true,
+        "server_name": "", // SNI TLS 1.2
+        "utls": {
+            "enabled": true,
+            "fingerprint": "firefox"
+        }
+    },
+    "network": "tcp",
+    "packet_encoding": "xudp",
+    "tcp_fast_open": true,
+    "tcp_multi_path": true,
+    "transport": {
+        "type": "http",
+        "path": "/",
+        "method": "GET",
+        "headers": {
+            "Host": [
+                "" // SNI TLS 1.2
+            ]
+        },
+        "idle_timeout": "15s",
+        "ping_timeout": "15s"
+    },
+    "multiplex": {
+        "enabled": true,
+        "protocol": "smux",
+        "max_streams": 16,
+        "padding": false
+    }
+}

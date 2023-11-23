@@ -1,0 +1,176 @@
+{
+    "log": {
+        "disabled": false,
+        "level": "error",
+        "timestamp": true
+    },
+    "dns": {
+        "servers": [
+            {
+                "tag": "local",
+                "address": "https://1.1.1.1/dns-query",
+                "detour": "direct"
+            },
+            {
+                "tag": "block",
+                "address": "rcode://success"
+            }
+        ],
+        "rules": [
+            {
+                "domain_suffix": [
+                    ".ir"
+                ],
+                "server": "dns-direct"
+            },
+            {
+                "outbound": "direct",
+                "server": "dns-direct",
+                "rewrite_ttl": 20
+            },
+            {
+                "outbound": "any",
+                "server": "dns-direct",
+                "rewrite_ttl": 20
+            }
+        ],
+        "reverse_mapping": true,
+        "strategy": "prefer_ipv4",
+        "independent_cache": true
+    },
+    "inbounds": [
+
+
+// config here
+
+
+    ],
+    "outbounds": [
+
+// wireguard outbound
+
+        {
+            "server": "engage.cloudflareclient.com",
+            "server_port": 2408,
+            "local_address": [
+                "172.16.0.2/32",
+                "2606:4700:110:81d0:a1dc:7e2d:b127:b381/128"
+            ],
+            "private_key": "",
+            "peer_public_key": "",
+            "reserved": [
+                0,
+                0,
+                0
+            ],
+            "tag": "wg",
+            "type": "wireguard"
+        },
+        {
+            "type": "direct",
+            "tag": "direct"
+        },
+        {
+            "type": "block",
+            "tag": "block"
+        }
+    ],
+    "route": {
+        "geoip": {
+            "download_url": "https://github.com/Chocolate4U/Iran-sing-box-rules/releases/latest/download/geoip.db"
+        },
+        "geosite": {
+            "download_url": "https://github.com/Chocolate4U/Iran-sing-box-rules/releases/latest/download/geosite.db"
+        },
+        "rules": [
+            {
+                "geosite": [
+                    "ads",
+                    "category-ads-all",
+                    "malware",
+                    "phishing",
+                    "cryptominers"
+                ],
+                "outbound": "block"
+            },
+            {
+                "geosite": [
+                    "social"
+                ],
+                "outbound": "wg"
+            },
+            {
+                "domain_suffix": [
+                    ".ir"
+                ],
+                "geosite": [
+                    "ir"
+                ],
+                "outbound": "block"
+            },
+            {
+                "geoip": [
+                    "malware",
+                    "phishing"
+                ],
+                "outbound": "block"
+            },
+            {
+                "geoip": [
+                    "google",
+                    "amazon",
+                    "microsoft",
+                    "bing",
+                    "github",
+                    "facebook",
+                    "twitter",
+                    "telegram",
+                    "oracle",
+                    "digitalocean",
+                    "linode",
+                    "cloudflare",
+                    "openai"
+                ],
+                "outbound": "wg"
+            },
+            {
+                "geoip": [
+                    "ir",
+                    "private",
+                    "cn",
+                    "ru",
+                    "arvancloud",
+                    "derakcloud",
+                    "iranserver",
+                    "parspack"
+                ],
+                "outbound": "block"
+            },
+            {
+                "network": "udp",
+                "outbound": "block",
+                "port": [
+                    135,
+                    137,
+                    138,
+                    139,
+                    5353
+                ]
+            },
+            {
+                "ip_cidr": [
+                    "224.0.0.0/3",
+                    "ff00::/8"
+                ],
+                "outbound": "block"
+            },
+            {
+                "outbound": "block",
+                "source_ip_cidr": [
+                    "224.0.0.0/3",
+                    "ff00::/8"
+                ]
+            }
+        ]
+    }
+}

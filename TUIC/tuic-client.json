@@ -1,0 +1,69 @@
+{
+    "type": "tuic",
+    "tag": "", // config name
+    "server": "", // server ipv4 or ipv6
+    "server_port": , // server port
+    "uuid": "", // uuid
+    "password": "", // password
+    "congestion_control": "bbr",
+    "udp_relay_mode": "native",
+    "udp_over_stream": false,
+    "zero_rtt_handshake": false,
+    "udp_fragment": true,
+    "heartbeat": "10s",
+    "tls": {
+        "enabled": true,
+        "insecure": false,
+        "min_version": "1.2",
+        "max_version": "1.3",
+        "server_name": "", // YOUR DOMAIN
+        "certificate": [
+            // محتویات certificate 
+            "-----BEGIN CERTIFICATE-----",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "-----END CERTIFICATE-----"
+        ],
+        "ech": {
+            "enabled": true,
+            "pq_signature_schemes_enabled": false,
+            "dynamic_record_sizing_disabled": false,
+            "config": [
+                // ech 
+                "-----BEGIN ECH CONFIGS-----",
+                "",
+                "",
+                "-----END ECH CONFIGS-----"
+            ]
+        },
+        "alpn": [
+            "h3",
+            "spdy/3.1"
+        ],
+        "utls": {
+            "enabled": true,
+            "fingerprint": "firefox"
+        }
+    }
+}

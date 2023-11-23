@@ -1,0 +1,29 @@
+{
+    {
+        "type": "shadowsocks",
+        "method": "2022-blake3-aes-256-gcm",
+        "password": "", // shadowsocks inbound password
+        "detour": "shadowtls-out",
+        "udp_over_tcp": {
+            "enabled": true,
+            "version": 2
+        },
+        "tag": "ss"
+    },
+    {
+        "type": "shadowtls",
+        "tag": "shadowtls-out",
+        "server": "SERVER_IP_OR_DOMAIN",
+        "server_port": , // SERVER_PORT
+        "version": 3,
+        "password": "", // shadowtls inbound password
+        "tls": {
+            "enabled": true,
+            "server_name": "", // Clean SNI
+            "utls": {
+                "enabled": true,
+                "fingerprint": "chrome"
+            }
+        }
+    }
+}

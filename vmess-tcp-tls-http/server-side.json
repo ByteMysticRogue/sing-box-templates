@@ -1,0 +1,38 @@
+{
+    "type": "vmess",
+    "tag": "vmess-in",
+    "listen": "::",
+    "listen_port": , // server port
+    "sniff": false,
+    "sniff_timeout": "300ms",
+    "domain_strategy": "prefer_ipv4",
+    "sniff_override_destination": false,
+    "tcp_fast_open": true,
+    "tcp_multi_path": true,
+    "users": [
+        {
+            "name": "",
+            "uuid": "", // sing-box generate uuid
+            "alterId": 1
+        }
+    ],
+    "tls": {
+        "enabled": true,
+        "insecure": true,
+        "server_name": "", // SNI TLS 1.2
+        "certificate_path": "", // server cert
+        "key_path": "" // private key
+    },
+    "transport": {
+        "type": "http",
+        "path": "/",
+        "method": "GET",
+        "headers": {
+            "Host": [
+                ""  // SNI TLS 1.2
+            ]
+        },
+        "idle_timeout": "15s",
+        "ping_timeout": "15s"
+    }
+}

@@ -1,0 +1,45 @@
+{
+  "type": "tuic",
+  "tag": "tuic-in",
+  "listen": "::",
+  "listen_port": , // server port
+  "udp_fragment": true,
+  "sniff": true,
+  "sniff_timeout": "300ms",
+  "sniff_override_destination": true,
+  "sniff_timeout": "300ms",
+  "users": [
+    {
+      "name": "",
+      "uuid": "", // sing-box generate uuid
+      "password": "" // sing-box generate rand --base64 16 
+    }
+  ],
+  "congestion_control": "bbr",
+  "auth_timeout": "3s",
+  "zero_rtt_handshake": false,
+  "heartbeat": "10s",
+  "tls": {
+    "enabled": true,
+    "alpn": [
+      "h3",
+      "spdy/3.1"
+    ],
+    "server_name": "", // YOUR DOMAIN
+    "certificate_path": "", // certificate path
+    "key_path": "", // private key path
+    "ech": {
+      "enabled": true, // sing-box.exe generate ech-keypair YOUR_DOMAIN 
+      // like this: sing-box.exe generate ech-keypair yourdomain.com 
+      "pq_signature_schemes_enabled": false,
+      "dynamic_record_sizing_disabled": false,
+      "key": [
+        "-----BEGIN ECH KEYS-----",
+        "محتویات هر خط به ",
+        "این",
+        "صورت وارد شود",
+        "-----END ECH KEYS-----"
+      ]
+    }
+  }
+}

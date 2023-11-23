@@ -1,0 +1,33 @@
+{
+    "type": "vmess",
+    "tag": "vmess-in",
+    "listen": "::",
+    "listen_port": , // server port
+    "sniff": false,
+    "sniff_timeout": "300ms",
+    "domain_strategy": "prefer_ipv4",
+    "sniff_override_destination": false,
+    "users": [
+        {
+            "name": "",
+            "uuid": "", // sing-box generate uuid
+            "alterId": 1
+        }
+    ],
+    "tls": {
+        "enabled": true,
+        "insecure": false,
+        "server_name": "", // your domain
+        "min_version": "1.2",
+        "max_version": "1.3",
+        "certificate_path": "", // cert
+        "key_path": "" // private key
+    },
+    "transport": {
+        "type": "grpc",
+        "service_name": "TunService",
+        "idle_timeout": "15s",
+        "ping_timeout": "15s",
+        "permit_without_stream": false
+    }
+}

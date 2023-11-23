@@ -1,0 +1,29 @@
+{
+    "type": "vless",
+    "tag": "", // config name
+    "server": "", // server domain or ip address
+    "server_port": , // server port
+    "uuid": "", // uuid
+    "flow": "xtls-rprx-vision",
+    "network": "tcp",
+    "tcp_fast_open": true,
+    "tcp_multi_path": true,
+    "tls": {
+        "enabled": true,
+        "insecure": false,
+        "server_name": "", // CLEAN SNI
+        "alpn": [
+            "h2",
+            "http/1.1"
+        ],
+        "reality": {
+            "enabled": true,
+            "public_key": "", // public key
+            "short_id": "" // shortid
+        },
+        "utls": {
+            "enabled": true,
+            "fingerprint": "firefox"
+        }
+    }
+}

@@ -1,0 +1,35 @@
+{
+  "type": "vmess",
+  "tag": "vmess-in",
+  "listen": "::",
+  "listen_port": , // server port
+  "sniff": false,
+  "sniff_timeout": "300ms",
+  "domain_strategy": "prefer_ipv4",
+  "sniff_override_destination": false,
+  "users": [
+    {
+      "name": "ALL",
+      "uuid": "", // sing-box generate uuid
+      "alterId": 1
+    }
+  ],
+  "tls": {
+    "enabled": true,
+    "insecure": false,
+    "server_name": "", // your domain
+    "min_version": "1.2",
+    "max_version": "1.3",
+    "certificate_path": "", // cert
+    "key_path": "" // private key
+  },
+  "transport": {
+    "type": "ws",
+    "path": "/YOURPATH", // your path
+    "headers": {
+      "Host": "" // your domain
+    },
+    "max_early_data": 2048,
+    "early_data_header_name": "Sec-WebSocket-Protocol"
+  }
+}
