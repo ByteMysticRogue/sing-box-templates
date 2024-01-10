@@ -3,7 +3,7 @@
     "tag": "vmess-in",
     "listen": "::",
     "listen_port": , // server port
-    "sniff": false,
+    "sniff": true,
     "sniff_timeout": "300ms",
     "domain_strategy": "prefer_ipv4",
     "sniff_override_destination": false,
@@ -19,18 +19,34 @@
     "tls": {
         "enabled": true,
         "insecure": true,
-        "server_name": "", // SNI TLS 1.2
+        "server_name": "speedtest.net", // SNI TLS 1.2
         "certificate_path": "", // server cert
-        "key_path": "" // private key
+        "key_path": "", // private key
+        "alpn": [
+            "http/1.1",
+            "h2"
+        ]
     },
     "transport": {
         "type": "http",
-        "path": "/",
+        "path": "/download",
         "method": "GET",
         "headers": {
             "Host": [
-                ""  // SNI TLS 1.2
-            ]
+                "mashhad1.irancell.ir,shiraz1.irancell.ir,tabriz1.irancell.ir,speedtest1.irancell.ir,ahvaz1.irancell.ir,esfahan1.irancell.ir,sp.setdns.in,tci-tehran.tct.ir"
+            ],
+            "Connection": [
+                "keep-alive"
+            ],
+            "Content-Length": [
+                "25000000"
+            ],
+            "Content-Type": [
+                "application/octet-stream"
+            ],
+            "reason": "OK",
+            "status": "200",
+            "version": "1.1"
         },
         "idle_timeout": "15s",
         "ping_timeout": "15s"
