@@ -185,18 +185,6 @@
             {
                 "rule_set": [
                     "geosite-ir",
-                    "geosite-category-bank-ir",
-                    "geosite-category-bourse-ir",
-                    "geosite-category-education-ir",
-                    "geosite-category-forums-ir",
-                    "geosite-category-gov-ir",
-                    "geosite-category-insurance-ir",
-                    "geosite-category-ir",
-                    "geosite-category-media-ir",
-                    "geosite-category-payment-ir",
-                    "geosite-category-shopping-ir",
-                    "geosite-category-tech-ir",
-                    "geosite-category-travel-ir",
                     "geosite-cn",
                     "geosite-apple",
                     "geosite-apple-update"
@@ -208,22 +196,22 @@
                     "geosite-category-ads-all",
                     "geosite-malware",
                     "geosite-phishing",
-                    "geosite-cryptominers",
+                    "geosite-cryptominers"
+                ],
+                "outbound": "block"
+            },
+            {
+                "rule_set": [
                     "geoip-malware",
-                    "geoip-phishing",
-                    "geosite-category-public-tracker",
-                    "geosite-category-ads-ir"
+                    "geoip-phishing"
                 ],
                 "outbound": "block"
             },
             {
                 "rule_set": [
                     "geoip-ir",
-                    "geoip-iranserver",
-                    "geoip-ir-asiatech",
                     "geoip-ru",
-                    "geoip-cn",
-                    "geoip-parspack"
+                    "geoip-cn"
                 ],
                 "outbound": "direct"
             }
@@ -294,150 +282,6 @@
                 "update_interval": "1d"
             },
             {
-                "tag": "geoip-iranserver",
-                "type": "remote",
-                "format": "binary",
-                "url": "https://raw.githubusercontent.com/Chocolate4U/Iran-sing-box-rules/rule-set/geoip-iranserver.srs",
-                "download_detour": "direct",
-                "update_interval": "1d"
-            },
-            {
-                "tag": "geosite-category-ads-ir",
-                "type": "remote",
-                "format": "binary",
-                "url": "https://raw.githubusercontent.com/Chocolate4U/Iran-sing-box-rules/rule-set/geosite-category-ads-ir.srs",
-                "download_detour": "direct",
-                "update_interval": "1d"
-            },
-            {
-                "tag": "geosite-category-bank-ir",
-                "type": "remote",
-                "format": "binary",
-                "url": "https://raw.githubusercontent.com/Chocolate4U/Iran-sing-box-rules/rule-set/geosite-category-bank-ir.srs",
-                "download_detour": "direct",
-                "update_interval": "1d"
-            },
-            {
-                "tag": "geosite-category-bourse-ir",
-                "type": "remote",
-                "format": "binary",
-                "url": "https://raw.githubusercontent.com/Chocolate4U/Iran-sing-box-rules/rule-set/geosite-category-bourse-ir.srs",
-                "download_detour": "direct",
-                "update_interval": "1d"
-            },
-            {
-                "tag": "geosite-category-education-ir",
-                "type": "remote",
-                "format": "binary",
-                "url": "https://raw.githubusercontent.com/Chocolate4U/Iran-sing-box-rules/rule-set/geosite-category-education-ir.srs",
-                "download_detour": "direct",
-                "update_interval": "1d"
-            },
-            {
-                "tag": "geosite-category-forums-ir",
-                "type": "remote",
-                "format": "binary",
-                "url": "https://raw.githubusercontent.com/Chocolate4U/Iran-sing-box-rules/rule-set/geosite-category-forums-ir.srs",
-                "download_detour": "direct",
-                "update_interval": "1d"
-            },
-            {
-                "tag": "geosite-category-gov-ir",
-                "type": "remote",
-                "format": "binary",
-                "url": "https://raw.githubusercontent.com/Chocolate4U/Iran-sing-box-rules/rule-set/geosite-category-gov-ir.srs",
-                "download_detour": "direct",
-                "update_interval": "1d"
-            },
-            {
-                "tag": "geosite-category-insurance-ir",
-                "type": "remote",
-                "format": "binary",
-                "url": "https://raw.githubusercontent.com/Chocolate4U/Iran-sing-box-rules/rule-set/geosite-category-insurance-ir.srs",
-                "download_detour": "direct",
-                "update_interval": "1d"
-            },
-            {
-                "tag": "geosite-category-ir",
-                "type": "remote",
-                "format": "binary",
-                "url": "https://raw.githubusercontent.com/Chocolate4U/Iran-sing-box-rules/rule-set/geosite-category-ir.srs",
-                "download_detour": "direct",
-                "update_interval": "1d"
-            },
-            {
-                "tag": "geosite-category-media-ir",
-                "type": "remote",
-                "format": "binary",
-                "url": "https://raw.githubusercontent.com/Chocolate4U/Iran-sing-box-rules/rule-set/geosite-category-media-ir.srs",
-                "download_detour": "direct",
-                "update_interval": "1d"
-            },
-            {
-                "tag": "geosite-category-news-ir",
-                "type": "remote",
-                "format": "binary",
-                "url": "https://raw.githubusercontent.com/Chocolate4U/Iran-sing-box-rules/rule-set/geosite-category-news-ir.srs",
-                "download_detour": "direct",
-                "update_interval": "1d"
-            },
-            {
-                "tag": "geosite-category-payment-ir",
-                "type": "remote",
-                "format": "binary",
-                "url": "https://raw.githubusercontent.com/Chocolate4U/Iran-sing-box-rules/rule-set/geosite-category-payment-ir.srs",
-                "download_detour": "direct",
-                "update_interval": "1d"
-            },
-            {
-                "tag": "geosite-category-scholar-ir",
-                "type": "remote",
-                "format": "binary",
-                "url": "https://raw.githubusercontent.com/Chocolate4U/Iran-sing-box-rules/rule-set/geosite-category-scholar-ir.srs",
-                "download_detour": "direct",
-                "update_interval": "1d"
-            },
-            {
-                "tag": "geosite-category-shopping-ir",
-                "type": "remote",
-                "format": "binary",
-                "url": "https://raw.githubusercontent.com/Chocolate4U/Iran-sing-box-rules/rule-set/geosite-category-shopping-ir.srs",
-                "download_detour": "direct",
-                "update_interval": "1d"
-            },
-            {
-                "tag": "geosite-category-tech-ir",
-                "type": "remote",
-                "format": "binary",
-                "url": "https://raw.githubusercontent.com/Chocolate4U/Iran-sing-box-rules/rule-set/geosite-category-tech-ir.srs",
-                "download_detour": "direct",
-                "update_interval": "1d"
-            },
-            {
-                "tag": "geosite-category-travel-ir",
-                "type": "remote",
-                "format": "binary",
-                "url": "https://raw.githubusercontent.com/Chocolate4U/Iran-sing-box-rules/rule-set/geosite-category-travel-ir.srs",
-                "download_detour": "direct",
-                "update_interval": "1d"
-            },
-            {
-                "tag": "geosite-category-public-tracker",
-                "type": "remote",
-                "format": "binary",
-                "url": "https://raw.githubusercontent.com/Chocolate4U/Iran-sing-box-rules/rule-set/geosite-category-public-tracker.srs",
-                "download_detour": "direct",
-                "update_interval": "1d"
-            },
-            {
-                "tag": "geoip-ir-asiatech",
-                "type": "remote",
-                "format": "binary",
-                "url": "https://raw.githubusercontent.com/ByteMysticRogue/asiatech_ip_cidr/main/geoip-ir-asiatech.srs",
-                "download_detour": "direct",
-                "update_interval": "1d"
-            },
-            {
                 "tag": "geoip-ru",
                 "type": "remote",
                 "format": "binary",
@@ -458,14 +302,6 @@
                 "type": "remote",
                 "format": "binary",
                 "url": "https://raw.githubusercontent.com/Chocolate4U/Iran-sing-box-rules/rule-set/geosite-cn.srs",
-                "download_detour": "direct",
-                "update_interval": "1d"
-            },
-            {
-                "tag": "geoip-parspack",
-                "type": "remote",
-                "format": "binary",
-                "url": "https://raw.githubusercontent.com/Chocolate4U/Iran-sing-box-rules/rule-set/geoip-parspack.srs",
                 "download_detour": "direct",
                 "update_interval": "1d"
             },
