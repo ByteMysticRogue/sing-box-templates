@@ -1,4 +1,4 @@
-import ipaddress, platform, subprocess, os, datetime, base64, json
+import ipaddress, platform, subprocess, os, datetime, base64
 
 warp_cidr = [
         '162.159.192.0/24',
