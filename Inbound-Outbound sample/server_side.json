@@ -1,7 +1,7 @@
 {
     "log": {
         "disabled": false,
-        "level": "info",
+        "level": "debug",
         "output": "/etc/sing-box/box.log",
         "timestamp": true
     },
@@ -9,10 +9,10 @@
         "servers": [
             {
                 "tag": "dns-remote",
-                "address": "https://dns.nextdns.io/184596",
-                "detour": "direct",
+                "address": "https://dns.adguard-dns.com/dns-query",
                 "address_resolver": "dns-local",
-                "address_strategy": "prefer_ipv4"
+                "detour": "direct",
+                "address_strategy": "ipv4_only"
             },
             {
                 "address": "local",
@@ -24,39 +24,8 @@
                 "address": "rcode://success"
             }
         ],
-        "rules": [
-            {
-                "type": "logical",
-                "mode": "and",
-                "rules": [
-                    {
-                        "rule_set": [
-                            "geoip-ir",
-                            "geosite-ir"
-                        ],
-                        "domain_suffix": [
-                            ".ir"
-                        ]
-                    }
-                ],
-                "server": "dns-local"
-            },
-            {
-                "outbound": "block",
-                "server": "dns-local",
-                "rewrite_ttl": 20
-            },
-            {
-                "outbound": "any",
-                "server": "dns-remote",
-                "rewrite_ttl": 20
-            }
-        ],
-        "strategy": "prefer_ipv4",
+        "strategy": "ipv4_only",
         "final": "dns-remote",
-        "disable_cache": false,
-        "disable_expire": false,
-        "independent_cache": false,
         "reverse_mapping": true
     },
     "experimental": {
@@ -69,11 +38,13 @@
     },
     "inbounds": [
 
-// add your inbound (vless, vmess, etc)
+        // add your inbound (vless, vmess, etc)
 
     ],
     "outbounds": [
+
         // wireguard outbound
+        
         {
             "server": "engage.cloudflareclient.com",
             "server_port": 2408,
@@ -98,10 +69,19 @@
         {
             "type": "block",
             "tag": "block"
+        },
+        {
+            "type": "dns",
+            "tag": "dns-out"
         }
     ],
     "route": {
+        "final": "wg",
         "rules": [
+            {
+                "protocol": "dns",
+                "outbound": "dns-out"
+            },
             {
                 "ip_is_private": true,
                 "outbound": "block"
@@ -117,7 +97,17 @@
                         ]
                     },
                     {
-                        "network": "quic",
+                        "network": "tcp",
+                        "port": [
+                            25,
+                            587,
+                            465,
+                            2525
+                        ],
+                        "outbound": "block"
+                    },
+                    {
+                        "protocol": "quic",
                         "port": 443
                     },
                     {
@@ -129,7 +119,22 @@
                     {
                         "ip_cidr": [
                             "224.0.0.0\/3",
-                            "ff00::\/8"
+                            "ff00::\/8",
+                            "0.0.0.0/8",
+                            "10.0.0.0/8",
+                            "100.64.0.0/10",
+                            "127.0.0.0/8",
+                            "169.254.0.0/16",
+                            "172.16.0.0/12",
+                            "192.0.0.0/24",
+                            "192.0.2.0/24",
+                            "192.168.0.0/16",
+                            "198.18.0.0/15",
+                            "198.51.100.0/24",
+                            "203.0.113.0/24",
+                            "::1/128",
+                            "fc00::/7",
+                            "fe80::/10"
                         ]
                     }
                 ],
@@ -147,8 +152,6 @@
                     "geosite-malware",
                     "geosite-phishing",
                     "geosite-cryptominers",
-                    "geoip-malware",
-                    "geoip-phishing",
                     "geosite-category-public-tracker",
                     "geosite-category-ads-ir",
                     "geosite-category-bank-ir",
@@ -163,18 +166,29 @@
                     "geosite-category-shopping-ir",
                     "geosite-category-tech-ir",
                     "geosite-category-travel-ir",
+                    "geosite-ir",
                     "geosite-cn"
                 ],
                 "outbound": "block"
             },
             {
                 "rule_set": [
-                    "geosite-ir",
                     "geoip-ir",
                     "geoip-iranserver",
                     "geoip-ir-asiatech",
                     "geoip-ru",
-                    "geoip-cn"
+                    "geoip-cn",
+                    "geoip-parspack",
+                    "geoip-malware",
+                    "geoip-phishing"
+                ],
+                "outbound": "block"
+            },
+            {
+                "domain": [
+                    "pushnotificationws.com",
+                    "sunlight-leds.com",
+                    "icecyber.org"
                 ],
                 "outbound": "block"
             }
@@ -409,6 +423,14 @@
                 "type": "remote",
                 "format": "binary",
                 "url": "https://raw.githubusercontent.com/Chocolate4U/Iran-sing-box-rules/rule-set/geosite-cn.srs",
+                "download_detour": "direct",
+                "update_interval": "1d"
+            },
+            {
+                "tag": "geoip-parspack",
+                "type": "remote",
+                "format": "binary",
+                "url": "https://raw.githubusercontent.com/Chocolate4U/Iran-sing-box-rules/rule-set/geoip-parspack.srs",
                 "download_detour": "direct",
                 "update_interval": "1d"
             }
