@@ -20,66 +20,71 @@
     "dns": {
         "servers": [
             {
-                "address": "https://1.1.1.1/dns-query",
-                "address_resolver": "dns-local",
-                "detour": "proxy",
-                "strategy": "prefer_ipv4",
-                "tag": "dns-remote"
+                "tag": "dns-remote",
+                "address": "https://1.1.1.2/dns-query",
+                "address_resolver": "dns-direct"
             },
             {
+                "tag": "dns-direct",
                 "address": "tcp://8.8.8.8",
                 "address_resolver": "dns-local",
-                "detour": "direct",
-                "strategy": "prefer_ipv4",
-                "tag": "dns-direct"
+                "detour": "direct"
             },
             {
                 "address": "rcode://success",
                 "tag": "dns-block"
             },
             {
+                "tag": "dns-local",
                 "address": "local",
-                "detour": "direct",
-                "tag": "dns-local"
-            },
-            {
-                "tag": "dns-fakeip",
-                "address": "fakeip",
-                "strategy": "prefer_ipv4"
+                "detour": "direct"
             }
         ],
         "rules": [
             {
-                "geosite": [
-                    "social"
-                ],
-                "server": "dns-remote"
+                "domain_suffix": ".ir",
+                "server": "dns-direct"
             },
             {
-                "type": "logical",
-                "mode": "or",
-                "rules": [
-                    {
-                        "rule_set": [
-                            "geoip-ir",
-                            "geosite-ir"
-                        ],
-                        "domain_suffix": [
-                            ".ir"
-                        ]
-                    }
+                "rule_set": [
+                    "geoip-ir",
+                    "geoip-iranserver",
+                    "geoip-ir-asiatech",
+                    "geoip-parspack"
                 ],
+                "server": "dns-direct"
+            },
+            {
+                "rule_set": [
+                    "geosite-ir",
+                    "geosite-category-bank-ir",
+                    "geosite-category-bourse-ir",
+                    "geosite-category-education-ir",
+                    "geosite-category-forums-ir",
+                    "geosite-category-gov-ir",
+                    "geosite-category-insurance-ir",
+                    "geosite-category-ir",
+                    "geosite-category-media-ir",
+                    "geosite-category-payment-ir",
+                    "geosite-category-shopping-ir",
+                    "geosite-category-tech-ir",
+                    "geosite-category-travel-ir"
+                ],
+                "server": "dns-direct"
+            },
+            {
+                "domain": "courier.push.apple.com",
                 "server": "dns-direct"
             },
             {
                 "outbound": "direct",
                 "server": "dns-direct",
-                "rewrite_ttl": 20
+                "rewrite_ttl": 3600
             },
             {
                 "outbound": "any",
                 "server": "dns-direct",
-                "rewrite_ttl": 20
+                "rewrite_ttl": 3600
             },
             {
                 "query_type": [
@@ -89,40 +94,18 @@
                 "server": "dns-block"
             },
             {
-                "domain_suffix": ".lan",
-                "server": "dns-block"
-            },
-            {
                 "domain_suffix": [
                     ".arpa",
-                    ".arpa."
+                    ".arpa.",
+                    ".lan"
                 ],
                 "server": "dns-block"
-            },
-            {
-                "query_type": [
-                    "A",
-                    "AAAA"
-                ],
-                "server": "dns-fakeip"
-            },
-            {
-                "disable_cache": true,
-                "inbound": [
-                    "tun-in"
-                ],
-                "server": "dns-fakeip"
             }
         ],
-        "fakeip": {
-            "enabled": true,
-            "inet4_range": "198.18.0.0/15",
-            "inet6_range": "fc00::/18"
-        },
         "reverse_mapping": true,
         "disable_cache": false,
         "disable_expire": false,
-        "strategy": "prefer_ipv4",
+        "strategy": "ipv4_only",
         "independent_cache": true,
         "final": "dns-remote"
     },
@@ -130,12 +113,12 @@
         {
             "type": "tun",
             "tag": "tun-in",
-            "domain_strategy": "prefer_ipv4",
-            "interface_name": "tun0",
+            "domain_strategy": "ipv4_only",
+            "interface_name": "sing-tun",
             "inet4_address": "172.19.0.1/30",
             "mtu": 1500,
             "auto_route": true,
-            "strict_route": true,
+            "strict_route": false,
             "stack": "gvisor",
             "endpoint_independent_nat": true,
             "sniff": true,
@@ -150,7 +133,8 @@
                 "URL-TEST",
                 ""
                 // configs name
-            ]
+            ],
+            "interrupt_exist_connections": false
         },
         {
             "tag": "URL-TEST",
@@ -160,8 +144,9 @@
                 // configs name
             ],
             "url": "https://detectportal.firefox.com/success.txt",
-            "interval": "60s",
-            "tolerance": 50
+            "interval": "5m",
+            "tolerance": 50,
+            "interrupt_exist_connections": false
         },
         //  configs
 
@@ -192,48 +177,14 @@
                 "outbound": "direct"
             },
             {
-                "network": "udp",
-                "outbound": "block",
-                "port": [
-                    135,
-                    137,
-                    138,
-                    139,
-                    5353
-                ]
-            },
-            {
                 "domain_suffix": [
                     ".ir"
                 ],
                 "outbound": "direct"
             },
             {
-                "network": "quic",
-                "port": 443,
-                "outbound": "block"
-            },
-            {
-                "ip_cidr": [
-                    "224.0.0.0\/3",
-                    "ff00::\/8"
-                ],
-                "outbound": "block",
-                "source_ip_cidr": [
-                    "224.0.0.0\/3",
-                    "ff00::\/8"
-                ]
-            },
-            {
-                "domain_suffix": [
-                    "appcenter.ms",
-                    "firebase.io",
-                    "crashlytics.com"
-                ],
-                "outbound": "block"
-            },
-            {
                 "rule_set": [
+                    "geosite-ir",
                     "geosite-category-bank-ir",
                     "geosite-category-bourse-ir",
                     "geosite-category-education-ir",
@@ -246,7 +197,9 @@
                     "geosite-category-shopping-ir",
                     "geosite-category-tech-ir",
                     "geosite-category-travel-ir",
-                    "geosite-cn"
+                    "geosite-cn",
+                    "geosite-apple",
+                    "geosite-apple-update"
                 ],
                 "outbound": "direct"
             },
@@ -265,12 +218,12 @@
             },
             {
                 "rule_set": [
-                    "geosite-ir",
                     "geoip-ir",
                     "geoip-iranserver",
                     "geoip-ir-asiatech",
                     "geoip-ru",
-                    "geoip-cn"
+                    "geoip-cn",
+                    "geoip-parspack"
                 ],
                 "outbound": "direct"
             }
@@ -505,6 +458,30 @@
                 "type": "remote",
                 "format": "binary",
                 "url": "https://raw.githubusercontent.com/Chocolate4U/Iran-sing-box-rules/rule-set/geosite-cn.srs",
+                "download_detour": "direct",
+                "update_interval": "1d"
+            },
+            {
+                "tag": "geoip-parspack",
+                "type": "remote",
+                "format": "binary",
+                "url": "https://raw.githubusercontent.com/Chocolate4U/Iran-sing-box-rules/rule-set/geoip-parspack.srs",
+                "download_detour": "direct",
+                "update_interval": "1d"
+            },
+            {
+                "tag": "geosite-apple",
+                "type": "remote",
+                "format": "binary",
+                "url": "https://raw.githubusercontent.com/Chocolate4U/Iran-sing-box-rules/rule-set/geosite-apple.srs",
+                "download_detour": "direct",
+                "update_interval": "1d"
+            },
+            {
+                "tag": "geosite-apple-update",
+                "type": "remote",
+                "format": "binary",
+                "url": "https://raw.githubusercontent.com/Chocolate4U/Iran-sing-box-rules/rule-set/geosite-apple-update.srs",
                 "download_detour": "direct",
                 "update_interval": "1d"
             }
