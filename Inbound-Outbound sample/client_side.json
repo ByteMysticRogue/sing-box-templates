@@ -47,28 +47,13 @@
             },
             {
                 "rule_set": [
-                    "geoip-ir",
-                    "geoip-iranserver",
-                    "geoip-ir-asiatech",
-                    "geoip-parspack"
+                    "geoip-ir"
                 ],
                 "server": "dns-direct"
             },
             {
                 "rule_set": [
-                    "geosite-ir",
-                    "geosite-category-bank-ir",
-                    "geosite-category-bourse-ir",
-                    "geosite-category-education-ir",
-                    "geosite-category-forums-ir",
-                    "geosite-category-gov-ir",
-                    "geosite-category-insurance-ir",
-                    "geosite-category-ir",
-                    "geosite-category-media-ir",
-                    "geosite-category-payment-ir",
-                    "geosite-category-shopping-ir",
-                    "geosite-category-tech-ir",
-                    "geosite-category-travel-ir"
+                    "geosite-ir"
                 ],
                 "server": "dns-direct"
             },
