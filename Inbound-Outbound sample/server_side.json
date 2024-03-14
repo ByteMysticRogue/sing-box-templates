@@ -10,14 +10,14 @@
             {
                 "tag": "dns-remote",
                 "address": "https://dns.adguard-dns.com/dns-query",
-                "address_resolver": "dns-local",
-                "detour": "direct",
-                "address_strategy": "ipv4_only"
+                "address_resolver": "dns_resolver",
+                "detour": "direct"
             },
             {
-                "address": "local",
-                "detour": "direct",
-                "tag": "dns-local"
+                "tag": "dns_resolver",
+                "address": "8.8.8.8",
+                "strategy": "ipv4_only",
+                "detour": "direct"
             },
             {
                 "tag": "block",
@@ -31,8 +31,7 @@
     "experimental": {
         "cache_file": {
             "enabled": true,
-            "path": "",
-            "cache_id": "",
+            "path": "cache.db",
             "store_fakeip": false
         }
     },
@@ -46,6 +45,8 @@
         // wireguard outbound
         
         {
+            "tag": "wg",
+            "type": "wireguard",
             "server": "engage.cloudflareclient.com",
             "server_port": 2408,
             "local_address": [
@@ -59,12 +60,25 @@
                 0,
                 0
             ],
-            "tag": "wg",
-            "type": "wireguard"
+            "mtu": 1395,
+            "workers": 4
         },
         {
             "type": "direct",
-            "tag": "direct"
+            "tag": "warp-IPv4",
+            "detour": "wg",
+            "domain_strategy": "ipv4_only"
+        },
+        {
+            "type": "direct",
+            "tag": "direct",
+            "domain_strategy": "prefer_ipv4",
+            "fallback_delay": "300ms"
+        },
+        {
+            "type": "direct",
+            "tag": "IPv4",
+            "domain_strategy": "ipv4_only"
         },
         {
             "type": "block",
@@ -76,7 +90,7 @@
         }
     ],
     "route": {
-        "final": "wg",
+        "final": "direct",
         "rules": [
             {
                 "protocol": "dns",
@@ -152,20 +166,43 @@
                     "geosite-malware",
                     "geosite-phishing",
                     "geosite-cryptominers",
-                    "geosite-ir",
-                    "geosite-cn"
+                    "geoip-malware",
+                    "geoip-phishing"
                 ],
                 "outbound": "block"
             },
             {
                 "rule_set": [
+                    "geosite-ir",
                     "geoip-ir",
                     "geoip-ru",
                     "geoip-cn",
-                    "geoip-malware",
-                    "geoip-phishing"
+                    "geosite-cn"
                 ],
                 "outbound": "block"
+            },
+            {
+                "domain": [
+                    "pushnotificationws.com",
+                    "sunlight-leds.com",
+                    "icecyber.org"
+                ],
+                "outbound": "block"
+            },
+            {
+                "rule_set": [
+                    "geoip-openai",
+                    "geosite-instagram",
+                    "geoip-facebook",
+                    "geosite-facebook"
+                ],
+                "outbound": "warp-IPv4"
+            },
+            {
+                "rule_set": [
+                    "geoip-google"
+                ],
+                "outbound": "IPv4"
             }
         ],
         "rule_set": [
@@ -254,6 +291,46 @@
                 "type": "remote",
                 "format": "binary",
                 "url": "https://raw.githubusercontent.com/Chocolate4U/Iran-sing-box-rules/rule-set/geosite-cn.srs",
+                "download_detour": "direct",
+                "update_interval": "1d"
+            },
+            {
+                "tag": "geoip-openai",
+                "type": "remote",
+                "format": "binary",
+                "url": "https://raw.githubusercontent.com/Chocolate4U/Iran-sing-box-rules/rule-set/geoip-openai.srs",
+                "download_detour": "direct",
+                "update_interval": "1d"
+            },
+            {
+                "tag": "geosite-instagram",
+                "type": "remote",
+                "format": "binary",
+                "url": "https://raw.githubusercontent.com/Chocolate4U/Iran-sing-box-rules/rule-set/geosite-instagram.srs",
+                "download_detour": "direct",
+                "update_interval": "1d"
+            },
+            {
+                "tag": "geoip-facebook",
+                "type": "remote",
+                "format": "binary",
+                "url": "https://raw.githubusercontent.com/Chocolate4U/Iran-sing-box-rules/rule-set/geoip-facebook.srs",
+                "download_detour": "direct",
+                "update_interval": "1d"
+            },
+            {
+                "tag": "geosite-facebook",
+                "type": "remote",
+                "format": "binary",
+                "url": "https://raw.githubusercontent.com/Chocolate4U/Iran-sing-box-rules/rule-set/geosite-facebook.srs",
+                "download_detour": "direct",
+                "update_interval": "1d"
+            },
+            {
+                "tag": "geoip-google",
+                "type": "remote",
+                "format": "binary",
+                "url": "https://raw.githubusercontent.com/Chocolate4U/Iran-sing-box-rules/rule-set/geoip-google.srs",
                 "download_detour": "direct",
                 "update_interval": "1d"
             }
