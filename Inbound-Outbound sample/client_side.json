@@ -14,6 +14,7 @@
         },
         "cache_file": {
             "enabled": true,
+            "path": "cache.db",
             "store_fakeip": false
         }
     },
@@ -21,23 +22,20 @@
         "servers": [
             {
                 "tag": "dns-remote",
-                "address": "https://1.1.1.2/dns-query",
-                "address_resolver": "dns-direct"
+                "address": "https://1.1.1.1/dns-query",
+                "address_resolver": "dns-direct",
+                "strategy": "ipv4_only",
+                "detour": "proxy"
             },
             {
                 "tag": "dns-direct",
-                "address": "tcp://8.8.8.8",
-                "address_resolver": "dns-local",
+                "address": "tcp:\/\/8.8.8.8",
+                "strategy": "ipv4_only",
                 "detour": "direct"
             },
             {
-                "address": "rcode://success",
-                "tag": "dns-block"
-            },
-            {
-                "tag": "dns-local",
-                "address": "local",
-                "detour": "direct"
+                "tag": "dns-block",
+                "address": "rcode:\/\/success"
             }
         ],
         "rules": [
@@ -47,12 +45,7 @@
             },
             {
                 "rule_set": [
-                    "geoip-ir"
-                ],
-                "server": "dns-direct"
-            },
-            {
-                "rule_set": [
+                    "geoip-ir",
                     "geosite-ir"
                 ],
                 "server": "dns-direct"
@@ -103,7 +96,7 @@
             "inet4_address": "172.19.0.1/30",
             "mtu": 1500,
             "auto_route": true,
-            "strict_route": false,
+            "strict_route": true,
             "stack": "gvisor",
             "endpoint_independent_nat": true,
             "sniff": true,
@@ -169,24 +162,10 @@
             },
             {
                 "rule_set": [
-                    "geosite-ir",
-                    "geosite-cn",
-                    "geosite-apple",
-                    "geosite-apple-update"
-                ],
-                "outbound": "direct"
-            },
-            {
-                "rule_set": [
                     "geosite-category-ads-all",
                     "geosite-malware",
                     "geosite-phishing",
-                    "geosite-cryptominers"
-                ],
-                "outbound": "block"
-            },
-            {
-                "rule_set": [
+                    "geosite-cryptominers",
                     "geoip-malware",
                     "geoip-phishing"
                 ],
@@ -196,7 +175,11 @@
                 "rule_set": [
                     "geoip-ir",
                     "geoip-ru",
-                    "geoip-cn"
+                    "geoip-cn",
+                    "geosite-ir",
+                    "geosite-cn",
+                    "geosite-apple",
+                    "geosite-apple-update"
                 ],
                 "outbound": "direct"
             }
