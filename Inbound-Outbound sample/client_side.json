@@ -9,63 +9,68 @@
             "external_controller": "127.0.0.1:9090",
             "external_ui": "metacubexd",
             "external_ui_download_url": "https:\/\/github.com\/MetaCubeX\/metacubexd\/archive\/refs\/heads\/gh-pages.zip",
-            "external_ui_download_detour": "bypass",
+            "external_ui_download_detour": "direct",
             "default_mode": "rule"
         },
         "cache_file": {
             "enabled": true,
             "path": "cache.db",
             "store_fakeip": false,
-            "store_rdrc": true,
+            "store_rdrc": false,
             "rdrc_timeout": "7d"
         }
     },
     "dns": {
         "servers": [
             {
-                "tag": "dns-remote",
-                "address": "https:\/\/1.1.1.1\/dns-query",
-                "address_resolver": "dns-direct",
-                "address_strategy": "ipv4_only",
-                "strategy": "ipv4_only"
-            },
-            {
-                "tag": "dns-direct",
-                "address": "tcp:\/\/8.8.8.8",
+                "address": "https://1.1.1.1/dns-query",
                 "address_resolver": "dns-local",
+                "detour": "Proxy",
                 "strategy": "ipv4_only",
-                "detour": "direct"
+                "tag": "dns-remote"
             },
             {
-                "tag": "dns-local",
-                "address": "local",
-                "detour": "direct"
+                "address": "78.157.42.100",
+                "address_resolver": "dns-local",
+                "detour": "direct",
+                "strategy": "ipv4_only",
+                "tag": "dns-direct"
             },
             {
-                "tag": "dns-block",
-                "address": "rcode:\/\/success"
+                "address": "8.8.8.8",
+                "detour": "direct",
+                "tag": "dns-local"
+            },
+            {
+                "address": "rcode://success",
+                "tag": "dns-block"
             }
         ],
         "rules": [
             {
-                "domain": "cp.cloudflare.com",
-                "server": "dns-remote"
-            },
-            {
-                "domain_suffix": ".ir",
-                "server": "dns-direct"
-            },
-            {
+                "domain": [
+                    // Your Server Domain name
+                ],
                 "rule_set": [
                     "geosite-ir"
                 ],
                 "server": "dns-direct"
+            },
+            {
+                "disable_cache": true,
+                "rule_set": [
+                    "geosite-category-ads-all",
+                    "geosite-malware",
+                    "geosite-phishing",
+                    "geosite-cryptominers"
+                ],
+                "server": "dns-block"
+            },
+            {
+                "outbound": "any",
+                "server": "dns-direct"
             }
         ],
-        "final": "dns-remote",
-        "reverse_mapping": true,
-        "disable_cache": false,
-        "disable_expire": false,
         "independent_cache": true
     },
     "inbounds": [
@@ -118,10 +123,6 @@
             "type": "block"
         },
         {
-            "type": "direct",
-            "tag": "bypass"
-        },
-        {
             "tag": "dns-out",
             "type": "dns"
         }
@@ -132,27 +133,23 @@
         "final": "Proxy",
         "rules": [
             {
-                "type": "logical",
-                "mode": "or",
-                "rules": [
-                    {
-                        "protocol": "dns"
-                    },
-                    {
-                        "port": 53
-                    }
-                ],
+                "protocol": "dns",
                 "outbound": "dns-out"
             },
             {
+                "network": "udp",
+                "port": 443,
+                "outbound": "block"
+            },
+            {
                 "ip_is_private": true,
-                "outbound": "bypass"
+                "outbound": "direct"
             },
             {
                 "domain_suffix": [
                     ".ir"
                 ],
-                "outbound": "bypass"
+                "outbound": "direct"
             },
             {
                 "rule_set": [
@@ -170,7 +167,7 @@
                     "geoip-ir",
                     "geosite-ir"
                 ],
-                "outbound": "bypass"
+                "outbound": "direct"
             }
         ],
         "rule_set": [
@@ -179,7 +176,7 @@
                 "type": "remote",
                 "format": "binary",
                 "url": "https://raw.githubusercontent.com/Chocolate4U/Iran-sing-box-rules/rule-set/geosite-ir.srs",
-                "download_detour": "bypass",
+                "download_detour": "direct",
                 "update_interval": "1d"
             },
             {
@@ -187,7 +184,7 @@
                 "type": "remote",
                 "format": "binary",
                 "url": "https://raw.githubusercontent.com/Chocolate4U/Iran-sing-box-rules/rule-set/geosite-category-ads-all.srs",
-                "download_detour": "bypass",
+                "download_detour": "direct",
                 "update_interval": "1d"
             },
             {
@@ -195,7 +192,7 @@
                 "type": "remote",
                 "format": "binary",
                 "url": "https://raw.githubusercontent.com/Chocolate4U/Iran-sing-box-rules/rule-set/geosite-malware.srs",
-                "download_detour": "bypass",
+                "download_detour": "direct",
                 "update_interval": "1d"
             },
             {
@@ -203,7 +200,7 @@
                 "type": "remote",
                 "format": "binary",
                 "url": "https://raw.githubusercontent.com/Chocolate4U/Iran-sing-box-rules/rule-set/geosite-phishing.srs",
-                "download_detour": "bypass",
+                "download_detour": "direct",
                 "update_interval": "1d"
             },
             {
@@ -211,7 +208,7 @@
                 "type": "remote",
                 "format": "binary",
                 "url": "https://raw.githubusercontent.com/Chocolate4U/Iran-sing-box-rules/rule-set/geosite-cryptominers.srs",
-                "download_detour": "bypass",
+                "download_detour": "direct",
                 "update_interval": "1d"
             },
             {
@@ -219,7 +216,7 @@
                 "type": "remote",
                 "format": "binary",
                 "url": "https://raw.githubusercontent.com/Chocolate4U/Iran-sing-box-rules/rule-set/geoip-ir.srs",
-                "download_detour": "bypass",
+                "download_detour": "direct",
                 "update_interval": "1d"
             },
             {
@@ -227,7 +224,7 @@
                 "type": "remote",
                 "format": "binary",
                 "url": "https://raw.githubusercontent.com/Chocolate4U/Iran-sing-box-rules/rule-set/geoip-malware.srs",
-                "download_detour": "bypass",
+                "download_detour": "direct",
                 "update_interval": "1d"
             },
             {
@@ -235,7 +232,7 @@
                 "type": "remote",
                 "format": "binary",
                 "url": "https://raw.githubusercontent.com/Chocolate4U/Iran-sing-box-rules/rule-set/geoip-phishing.srs",
-                "download_detour": "bypass",
+                "download_detour": "direct",
                 "update_interval": "1d"
             }
         ]
